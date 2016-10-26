@@ -1,0 +1,38 @@
+package com.example.leoncheng.systemprotector.AntiVirus.Utils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.security.MessageDigest;
+
+/**
+ * Created by Administrator on 2016/10/18.
+ */
+public class MD5Utils {
+    public static String getFileMd5(String path) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("md5");
+            File file =new File(path);
+            FileInputStream fis=new FileInputStream(file);
+            byte[]buffer=new byte[1024];
+            int len=-1;
+            while ((len=fis.read(buffer))!=1){
+                digest.update(buffer,0,len);
+            }
+            byte[] result=digest.digest();
+            StringBuilder Sb=new StringBuilder();
+            for(byte b:result){
+                int number=b&0xff;
+                String hex= Integer.toHexString(number);
+                if (hex.length()==1){
+                    Sb.append("0"+hex);
+                }else {
+                    Sb.append(hex);
+                }
+            }
+            return Sb.toString();
+        }catch (Exception e){
+            e.printStackTrace();;
+            return null;
+        }
+    }
+}
